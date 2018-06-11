@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>轮播</title>
+        <meta name="description" content="梁锦洪的第一次作业">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <style>
+            * {margin: 0; padding: 0;} 
+            body {
+                background-color: #222;
+                }
+            /*轮播的主舞台的样式*/
+            #content {
+                width: 600px; 
+                height: 300px; 
+                background-color: maroon;
+                margin: 100px auto 0;
+                border-radius: 20px;
+                box-shadow: 0px 0px 1px 2px #fff;
+                overflow: hidden;
+                position: relative;
+                }
+            /*轮播图片的样式*/
+            #img {
+                width: 3000px;
+                height: 300px;
+                position: absolute;
+                z-index: 1;
+            }
+
+            #content #img li {
+                width: 600px;
+                height: 300px;
+                float: left;
+                list-style-type: none;
+            }
+            /*轮播图片下方的圆点样式*/
+            #content #point {
+                width: 150px;
+                height: 10px;
+                position: absolute;
+                right: 5px;
+                bottom: 40px;
+                z-index: 2;
+            }
+            #content #point span {
+                width: 20px;
+                height: 20px;
+                display: inline-block;
+                margin-left: 5px;
+                border-radius: 50%;
+                background-color: white;
+                color: black;
+                text-align: center;
+                cursor: pointer;
+            }
+            #content #point .on {
+                background-color: red;
+            }
+            /*轮播图片左右两个箭头的样式*/
+            #content .arrow {
+                position: absolute;
+                top: 35%;
+                color: lightskyblue;
+                padding: 0 14px 15px;
+                border-radius: 50%;
+                font-size: 50px;
+                z-index: 2;
+                display: none;
+            }
+            #content .prev  {
+                left: 10px;
+            }
+            #content .next {
+                right: 10px;
+            }
+            #content:hover .arrow {
+                display: block;
+            }
+            #content .arrow:hover {
+                background-color: rgb(0,0,0.2);
+            }
+            /*第二题的样式*/
+            #second_job {
+                margin: 50px auto;
+                width: 100%;
+                height: 100%;
+             /*   position: relative;*/
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            #second_job #four_square {
+                overflow: hidden;
+                /*position: absolute;
+                left: 20%;*/
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            #second_job #four_square .square {
+                width: 200px;
+                height: 200px;
+                background-color: blue;
+                margin: 0 40px;
+                list-style-type: none;
+            }
+            #third {
+                width: 200px;
+                height: 200px;
+            }
+            #third .square{
+                width: 200px;
+                height: 200px;
+                background-color: blue;
+                list-style-type: none;
+                margin: 0 40px;
+            }
+            .show .square{
+
+                visibility: visible;
+            }
+            .hide .square{
+                visibility: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div id="content">
+            <header>
+                <nav>
+                    <ul>
+                        <li>首页</li>
+                        <li>热门书籍</li>
+                        <li>书籍分类</li>
+                        <li>我的书籍</li>
+                    </ul>
+                </nav>
+            </header>
+            <div id="img" style="left: -600px;">
+                <li><img src="./images/4.jpeg" alt="4" width="600" height="300"></li>
+                <li><img src="./images/1.jpg" alt="1" width="600" height="300"></li>
+                <li><img src="./images/2.jpg" alt="2" width="600" height="300"></li>
+                <li><img src="./images/3.jpg" alt="3" width="600" height="300"></li>
+                <li><img src="./images/4.jpeg" alt="4" width="600" height="300"></li>
+                <li><img src="./images/1.jpg" alt="1" width="600" height="300"></li>
+            </div>
+            <div id="point">
+                <span class="on">1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+            </div>
+            <a href="javascript:;" class="arrow prev">&lt;</a>
+            <a href="javascript:;" class="arrow next">&gt;</a>
+        </div>        
+        <div id="second_job">
+            <div id="four_square">
+                <li class="square first-square"></li>
+                <li class="square second-square"></li>
+           
+            </div>
+            <div id="third" class="show">
+              <li class="square third-square"></li>
+          </div>
+        </div>
+        <script>
+            //---------------------------------------------------------------------第一题轮播的代码------------------------------------------------------------------------------------//
+            var point = document.getElementsByTagName("span");
+            var img = document.querySelector("#img");
+            var prev = document.querySelector(".prev");
+            var next = document.querySelector(".next");
+            var index = 0;
+            //图片下方圆点的变化，当显示第几张图片的时候第几个圆点就变红
+            function setdot (){
+                for(var i = 0,len = point.length;i<len;i++){
+                    point[i].className = "";
+                }
+                point[index].className = "on";
+            }
+            //下一张图片，每一次偏移600像素,到最后一张图片的时候就跳转回第一张图片。
+            function next_img (){
+                index++;
+                if(index>3){
+                    index = 0;
+                }
+                setdot();
+                var newLeft;//偏移的位置
+                if(img.style.left === "-2400px"){
+                    newLeft = -600;
+                }
+                else{
+                    newLeft = parseInt(img.style.left)-600;
+                }
+                img.style.left = newLeft + "px";
+            }
+            //上一张图片，与下一张图片的方法原理相同。
+            function prev_img (){
+                index--;
+                if(index<0){
+                    index = 3;
+                }
+                setdot();
+                var newLeft;
+                if(img.style.left === "0px"){
+                    newLeft = -1800;
+                }
+                else{
+                    newLeft = parseInt(img.style.left)+600;
+                }
+                img.style.left = newLeft  + "px";
+            }
+            //设置每两秒自动执行next_img这个方法，用setInterval()而不用setTimeout()是因为前者是循环执行，后者在执行完以后就停止。
+            var timer = "";
+            function autochange (){
+                timer = setInterval(function(){
+                    next_img();
+                },2000);
+            }
+            autochange();
+            //点击图片左右的两个箭头就可以进行下一张或者上一张图片的操作。
+            next.onclick = function(){
+                next_img();
+            }
+            prev.onclick = function(){
+                prev_img();
+            }
+            //当鼠标移动进图片的时候就暂停播放。
+            var content = document.querySelector("#content");
+            content.onmouseenter = function(){
+                clearInterval(timer);
+            } 
+            content.onmouseleave = function(){
+                autochange();
+            }
+            //当图片下方的圆点触发点击事件的时候，对应显示第几张图片。
+            for(var i = 0,len = point.length;i<len;i++){
+                (function(i){
+                    point[i].onclick = function(){
+                        var n = index - i;
+                        if(index == 3 && parseInt(img.style.left) !== -2400){
+                            n = n - 4;
+                        }
+                        if(index == 0 && parseInt(img.style.left) !== -600){
+                            n = n + 4;
+                        }
+                        img.style.left = (parseInt(img.style.left) + n * 600) + "px";
+                        index = i;
+                        setdot();
+                    }
+                })(i);
+            }
+            //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+            //-------------------------------------------------------------------------------------------第二题代码----------------------------------------------------------------------------//
+            var firstsquare = document.querySelector(".first-square");
+            var secondsquare = document.querySelector(".second-square");
+            var thirdsquare = document.querySelector(".third-square");
+            var thirddiv = document.querySelector("#third");
+
+            //当鼠标移动到第一个矩形时，矩形的背景颜色变成红色，移出时变回蓝色。
+            firstsquare.onmouseenter = function(){
+                firstsquare.style.backgroundColor = "red";
+            }
+            firstsquare.onmouseleave = function(){
+                firstsquare.style.backgroundColor = "blue";
+            }
+            //当鼠标移动到第二个矩形的时候，矩形变成圆形，移出的时候变回矩形。
+            secondsquare.onmouseenter = function(){
+                secondsquare.style.borderRadius = "50%";
+            }
+            secondsquare.onmouseleave = function(){
+                secondsquare.style.borderRadius = "0";
+            }
+            //当鼠标移动到第三个矩形的时候，矩形就消失
+            thirddiv.onmouseenter = function(){
+                thirddiv.className = "hide";
+            }
+            thirddiv.onmouseleave = function(){
+                thirddiv.className = "show";
+            }
+            // thirdsquare.onmouseenter = function(){
+            //     thirdsquare.style.visibility = "hidden";
+            // }
+            // thirdsquare.onmouseleave = function(){
+            //     thirdsquare.style.visibility = "visible";
+            // }
+        </script>
+    </body>
+</html>
